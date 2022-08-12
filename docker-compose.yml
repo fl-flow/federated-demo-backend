@@ -1,0 +1,59 @@
+version: '3.1'
+services:
+  db:
+    image: ${MYSQL_IMAGES_NAME}
+    container_name: ${MYSQL_CONTAINER_NAME}
+    restart: always
+    privileged: true
+    environment:
+      MYSQL_USER: ${MYSQL_DOCKER_USER}
+      MYSQL_PASSWORD: ${MYSQL_DOCKER_PWD}
+      MYSQL_DATABASE: ${MYSQL_DOCKER_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_DOCKER_PASSWORD}
+    volumes:
+      - ${MYSQL_DOCKER_CONFIG}:/etc/my.cnf
+      - ${MYSQL_DOCKER_DATA}:/var/lib/mysql
+      - /etc/localtime:/etc/localtime
+    ports:
+      - ${MYSQL_MAPPING_DOCKER_PORT}:3306
+
+  redis:
+    container_name: ${REDIS_CONTAINER_NAME}
+    image: ${REDIS_IMAGES_NAME}
+    privileged: true
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Shanghai
+    ports:
+      - ${REDIS_MAPPING_PORT}:6379
+    volumes:
+      - ${REDIS_DATA_PATH}:/etc/redis/redis.conf
+      - ${REDIS_TIME}:/etc/localtime
+      - ${REDIS_DATA}:/data/
+
+
+  pj_research_fastapi:
+    container_name: ${PROJECT_CONTAINER_NAME}
+#    build: /home/projects/hi-management-server
+    image: ${PROJECT_IMAGE_NAME}:${VERSION}
+    environment:
+      LD_LIBRARY_PATH: /home/libs/instantclient_19_9
+    ports:
+      - ${PROJECT_MAPPING_PORT}:8090
+    volumes:
+      - ${PROJECT_STATIC}:/home/projects/hi-management-server/dashboard/static_vote/media
+    command: gunicorn dashboard.app.main:app –preload -b 0.0.0.0:8090 -w 12 --threads 2 --worker-connections 2048 --backlog 2048 --timeout 500 -k uvicorn.workers.UvicornWorker --log-level error --log-file /home/projects/hi-management-server/dashboard/logs/error.log
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "5g"
+    restart: unless-stopped
+    links:
+      - db:db
+      - redis:redis
+
+networks:
+  default:
+    external:
+     name: ${NETWORK_NAME}
+

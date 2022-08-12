@@ -1,0 +1,16 @@
+__pycache__/
+*.py[cod]
+*$py.class
+# Environments
+*.env
+./venv
+env.bak/
+venv.bak/
+dashboard/app/api/api_v1/endpoints/static_vote/
+./static_vote/
+.idea
+dashboard/.idea/
+./.vscode/
+dashboard/logs/
+
+*/logs/

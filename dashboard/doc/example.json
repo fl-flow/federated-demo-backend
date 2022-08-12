@@ -1,0 +1,8 @@
+{
+  "nodeName": "示例",
+  "nodeDomain": "http://www.示例.com",
+  "nodeHost": "192.168.19.12",
+  "nodePort": 8090,
+  "appkey": "xxxx",
+  "appSecret": "xxxx"
+}
