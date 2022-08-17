@@ -114,5 +114,5 @@ compress_type = [".zip"]
 excel_type = [".xlsx", ".xls", ".csv"]
 video_type = [".mp4", ".avi"]
 
-insert_file_path = "/home/fang/projects/meta-server/dashboard/static_vote/media"
+insert_file_path = "/home/fang/projects/hi-management-server/dashboard/static_vote/media"
 

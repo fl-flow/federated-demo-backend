@@ -1,8 +1,16 @@
+import os
+import json
+import shutil
+from datetime import datetime
 from sqlalchemy.orm import Session
 from dashboard.app.api import deps
-from dashboard.app.api.deps import APIVERIFY, APIVERIFYSUPER
-from fastapi import APIRouter, Depends, HTTPException
 from dashboard.app import crud, schemas
+from dashboard.app.core.config import settings
+from dashboard.app.resources import strings as base
+from dashboard.app.common.utils import get_token
+from dashboard.app.api.deps import APIVERIFY, APIVERIFYSUPER
+from fastapi import APIRouter, Depends, HTTPException, Header
+
 
 router = APIRouter()
 
@@ -87,3 +95,18 @@ def auth_delete(
     if not results:
         raise HTTPException(status_code=501, detail="删除失败")
     return {'code': 200, 'msg': '删除成功'}
+
+
+
+#权限导出
+@router.get("/down/")
+def pers_load():
+    zip_name = "permissions_key"
+    file_path = "dashboard/doc/permissions_key.py"
+    zip_path = base.insert_file_path+"/zip/" + zip_name
+    if not os.path.exists(zip_path):
+        os.makedirs(zip_path)
+    shutil.copy(file_path, zip_path)
+    shutil.make_archive(zip_path, 'zip', zip_path)
+    shutil.rmtree(zip_path)
+    return {"code": 200, "msg": "successful", "data": "/zip/"+zip_name+".zip"}

@@ -8,8 +8,6 @@ class Settings(BaseSettings):
     """配置类"""
     API_V1_STR: str = "/api/v1"
     PROJECT_NAME: str = "research"
-    DELETE_TIMEOUT_DAY: int = 10  # 记录删除时间/天
-    SIGN_RESET_TIME: int = 30  # 签名可再次修改时间/天\
     ZIP_IN_FILES_NAME: int = 150 #上传压缩包内文件名称长度不超过限制
     EXPIRE_DATASET_TIME: int = 10 #数据集下载过期时间
 
@@ -40,9 +38,8 @@ class Settings(BaseSettings):
     ]
 
     # es配置
-    INDEX_NAME: str = "1022_research"
-    INDEX_TYPE: str = "pj_type"
-    # ES_IP: str = "127.0.0.1"
+    INDEX_NAME: str = "1022_re"
+    INDEX_TYPE: str = "type"
     ES_IP: str = "172.16.10.184"
     ES_PORT: str = 9200
     LOG_ENABLED = True  # 是否开启log
@@ -58,10 +55,6 @@ class Settings(BaseSettings):
     RETENTION: str = "15 days"  # log文件过期时间
     LEVEL: str = "DEBUG"
 
-
-    # 定时任务配置
-    CRON_STRING = "1 10 0"   # 每日几点几分几秒, 每天1点10分0秒运行
-
     # 跨域
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
     @validator("BACKEND_CORS_ORIGINS", pre=True)
@@ -74,7 +67,7 @@ class Settings(BaseSettings):
         raise ValueError(v)
 
     class Config:
-        env_file = "/home/fang/projects/pj-hi-research-server/dashboard/app/core/.env"
+        env_file = "/home/projects/hi-management-server/dashboard/app/core/.env"
         env_file_encoding = 'utf-8'
 
 
@@ -82,6 +75,5 @@ class Settings(BaseSettings):
 def config_settings():
     settings = Settings()
     return settings
-
 
 settings = config_settings()

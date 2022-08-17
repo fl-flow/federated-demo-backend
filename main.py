@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, applications
 from fastapi.staticfiles import StaticFiles
 from starlette.exceptions import HTTPException
@@ -20,7 +21,9 @@ app = FastAPI(
     title=settings.PROJECT_NAME, openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-# # 上传的源文件压缩包
+#上传的源文件压缩包
+if not os.path.exists(base.insert_file_path):
+    os.makedirs(base.insert_file_path)
 app.mount(settings.API_V1_STR+"/static", StaticFiles(directory=base.insert_file_path), name="zip")
 
 

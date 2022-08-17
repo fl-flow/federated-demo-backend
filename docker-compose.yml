@@ -1,8 +1,8 @@
 version: '3.1'
 services:
   db:
-    image: ${MYSQL_IMAGES_NAME}
     container_name: ${MYSQL_CONTAINER_NAME}
+    image: ${MYSQL_IMAGES_NAME}
     restart: always
     privileged: true
     environment:
@@ -34,7 +34,7 @@ services:
 
   pj_research_fastapi:
     container_name: ${PROJECT_CONTAINER_NAME}
-#    build: /home/projects/hi-management-server
+    build: ${PROJECT_PATH}
     image: ${PROJECT_IMAGE_NAME}:${VERSION}
     environment:
       LD_LIBRARY_PATH: /home/libs/instantclient_19_9

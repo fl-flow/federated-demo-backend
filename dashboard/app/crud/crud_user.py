@@ -5,7 +5,6 @@ from fastapi.encoders import jsonable_encoder
 from dashboard.app.core.security import YunAuthJWT
 from dashboard.app.crud.base import CRUDBase
 from dashboard.app.resources import strings as base
-from dashboard.app.common.utils import get_random_phonenumber
 from dashboard.app.models.user import Users, RolesPermission, Permissions, UsersRoles
 from dashboard.app.schemas.user import UserCreate, UserUpdate, UserAddUser
 
@@ -127,36 +126,7 @@ class CRUDUser(CRUDBase[Users, UserCreate, UserUpdate]):
         else:
             return None
 
-    def create_thirdparty(self, db: Session,  *, kw):
-        realName = kw.get('realName')
-        uniqueId = kw.get('uniqueId')
-        server = kw.get('server')
-        sourceFrom = kw.get('sourceFrom', None)
-        avatarUrl = kw.get('avatarUrl', None)
-        sex = kw.get('sex')
-        city = kw.get('city', None)
-        province = kw.get('province', None)
-        country = kw.get('country', None)
-        intentionOrg = kw.get('intentionOrg', None)
 
-
-        if not kw['phoneNumber']:
-            while True:
-                phoneNumber = get_random_phonenumber()
-                phone_obj = self.get_by_phoneNumber(db=db, phoneNumber=phoneNumber)
-                if not phone_obj:
-                    break
-                continue
-        else:
-            phoneNumber = kw['phoneNumber']
-
-        user_info = {"phoneNumber": phoneNumber, "realName": realName, "password": phoneNumber, "superuser": 0,
-                     "flag": 3, "gender": sex, "sourceFrom": sourceFrom, "uniqueId": uniqueId, "expertImage": avatarUrl, "intentionOrg": intentionOrg}
-        print(user_info, '....')
-        user_obj = self.create(db=db, obj_in=user_info)
-        return user_obj
-
-    #根据机构code,用户获取当前登录机构信息login_org_msg
     def get_user_roles(self, db: Session, users):
         roles_users_sets = db.query(UsersRoles).filter_by(userId=users.id).all()
         rolesIds = [item.rolesId for item in roles_users_sets]
