@@ -13,7 +13,7 @@ from dashboard.errors.http_error import http_error_handler, validation_exception
 
 
 def swagger_monkey_patch(*args, **kwargs):
-    return get_swagger_ui_html(*args,**kwargs,swagger_js_url="https://unpkg.com/swagger-ui-dist@3.29/swagger-ui-bundle.js",swagger_css_url="https://unpkg.com/swagger-ui-dist@3.29/swagger-ui.css")
+    return get_swagger_ui_html(*args, **kwargs, swagger_js_url="https://unpkg.com/swagger-ui-dist@3.29/swagger-ui-bundle.js", swagger_css_url="https://unpkg.com/swagger-ui-dist@3.29/swagger-ui.css")
 
 applications.get_swagger_ui_html = swagger_monkey_patch
 

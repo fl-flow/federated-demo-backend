@@ -7,9 +7,7 @@ from pydantic import BaseSettings, validator, AnyHttpUrl, PostgresDsn
 class Settings(BaseSettings):
     """配置类"""
     API_V1_STR: str = "/api/v1"
-    PROJECT_NAME: str = "research"
-    ZIP_IN_FILES_NAME: int = 150 #上传压缩包内文件名称长度不超过限制
-    EXPIRE_DATASET_TIME: int = 10 #数据集下载过期时间
+    PROJECT_NAME: str = "federated-demo"
 
     # token相关
     ALGORITHM: str = "HS256"  # 加密算法
