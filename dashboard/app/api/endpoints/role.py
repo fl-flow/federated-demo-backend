@@ -11,7 +11,7 @@ from dashboard.app.common.utils import get_token
 router = APIRouter()
 
 #创建角色
-@router.post("/",  dependencies=[Depends(APIVERIFY("CreateRoles"))])
+@router.post("/",  dependencies=[Depends(APIVERIFY("CreateRoles"))], summary="角色创建")
 def Roles_add(
     *,
     db: Session = Depends(deps.get_db),
@@ -68,7 +68,7 @@ def role_list(
 
 
 #修改角色信息
-@router.put("/{id}", dependencies=[Depends(APIVERIFY("UpdateRoles"))])
+@router.put("/{id}", dependencies=[Depends(APIVERIFY("UpdateRoles"))], summary="角色修改")
 def role_update(
     id: int,
     *,
@@ -95,7 +95,7 @@ def role_update(
 
 
 #删除角色信息及其与权限关系
-@router.delete("/{id}", dependencies=[Depends(APIVERIFY("DeleteRoles"))])
+@router.delete("/{id}", dependencies=[Depends(APIVERIFY("DeleteRoles"))], summary="角色删除")
 def role_delete(
     id: int,
     *,

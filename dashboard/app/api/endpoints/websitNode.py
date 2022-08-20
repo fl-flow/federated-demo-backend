@@ -14,7 +14,7 @@ from dashboard.app.resources import strings as base
 router = APIRouter()
 
 #节点信息上传
-@router.post("/upload", dependencies=[Depends(APIVERIFY("NodeUpload"))])
+@router.post("/upload", dependencies=[Depends(APIVERIFY("NodeUpload"))], summary="节点信息上传")
 def node_load(
     db: Session = Depends(get_db),
     *,
@@ -44,7 +44,7 @@ def node_load(
 
 
 
-@router.post("/", dependencies=[Depends(APIVERIFY("NodeCreate"))])
+@router.post("/", dependencies=[Depends(APIVERIFY("NodeCreate"))], summary="节点创建")
 def node_create(
     request: Request,
     Authorization: str = Header(None),
@@ -89,7 +89,7 @@ def node_list(
     return {'code': 200, 'msg': 'successful', 'data': obj_list, 'page': page, 'page_size': page_size, 'query_total': querys_count}
 
 
-@router.put("/{code}", dependencies=[Depends(APIVERIFY("NodeUpdate"))])
+@router.put("/{code}", dependencies=[Depends(APIVERIFY("NodeUpdate"))], summary="节点信息修改")
 def node_update(
     code: str,
     request: Request,
@@ -122,7 +122,7 @@ def nodes_detail(
     return {'code': 200, 'msg': 'successful', 'data': data}
 
 #节点信息下载
-@router.get("/down/{code}", dependencies=[Depends(APIVERIFY("NodeDown"))])
+@router.get("/down/{code}", dependencies=[Depends(APIVERIFY("NodeDown"))], summary="节点信息下载")
 def nodes_load(
     code: str,
     Authorization: str = Header(None),

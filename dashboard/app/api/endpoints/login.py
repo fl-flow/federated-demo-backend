@@ -16,7 +16,7 @@ from dashboard.app.common.utils import get_token, from_redis_token
 router = APIRouter()
 
 #用户登录接口 -->返回token
-@router.post("/login/access-token", tags=["Login"])
+@router.post("/login/access-token", tags=["Login"], summary="登录")
 async def login_access_token(
     user_in: UserLogin,
     db: Session = Depends(deps.get_db)
@@ -62,7 +62,7 @@ async def login_access_token(
 
 
 #登出接口
-@router.post("/logout",dependencies=[Depends(APIVERIFY())])
+@router.post("/logout", dependencies=[Depends(APIVERIFY())], summary="退出登录")
 async def logout(Authorization: str = Header(...)):
     token = get_token(Authorization)
     user_id = cache.exists(token)

@@ -22,7 +22,7 @@ router = APIRouter()
 
 
 #注册普通用户
-@router.post("/register")
+@router.post("/register", summary="注册用户")
 def register_user(
     *,
     db: Session = Depends(deps.get_db),
@@ -42,7 +42,7 @@ def register_user(
 
 
 #新增用户
-@router.post("/newuser", dependencies=[Depends(APIVERIFY("CreateNewUser"))])
+@router.post("/newuser", dependencies=[Depends(APIVERIFY("CreateNewUser"))], summary="主动创建用户")
 async def create_newuser(
     *,
     Authorization: str = Header(None),
@@ -63,7 +63,7 @@ async def create_newuser(
 
 
 #个人详情
-@router.get("/", dependencies=[Depends(APIVERIFY())])
+@router.get("/", dependencies=[Depends(APIVERIFY())], summary="个人信息")
 async def read_users(
     db: Session = Depends(deps.get_db),
     Authorization: str = Header(None),
@@ -80,7 +80,7 @@ async def read_users(
 
 
 #用户详情
-@router.get("/{id}", dependencies=[Depends(APIVERIFY())])
+@router.get("/{id}", dependencies=[Depends(APIVERIFY())], summary="用户信息")
 async def read_users(
     id: int,
     db: Session = Depends(deps.get_db)
@@ -95,7 +95,7 @@ async def read_users(
 
 
 #获取用户列表
-@router.get("/list", dependencies=[Depends(APIVERIFY())])
+@router.get("/list", dependencies=[Depends(APIVERIFY())], summary="用户列表")
 async def get_user_list(
                         *,
                         db: Session = Depends(deps.get_db),
@@ -122,7 +122,7 @@ async def get_user_list(
 
 
 #重置密码；只需传用户id
-@router.put("/{id}/pwd/reset", dependencies=[Depends(APIVERIFY("ResetPwd"))])
+@router.put("/{id}/pwd/reset", dependencies=[Depends(APIVERIFY("ResetPwd"))], summary="重置密码")
 async def update_user_me(
     id: int,
     Authorization: str = Header(None),
@@ -149,7 +149,7 @@ async def update_user_me(
 #put用户信息 传旧密码和新密码,
 #旧密码不对
 #(token保存时间只有三个小时);
-@router.put("/{id}/pwd/set", dependencies=[Depends(APIVERIFY("UpdatePwd"))])
+@router.put("/{id}/pwd/set", dependencies=[Depends(APIVERIFY("UpdatePwd"))], summary="修改密码")
 async def update_user_me(
     id: int,
     Authorization: str = Header(None),
@@ -173,7 +173,7 @@ async def update_user_me(
         raise HTTPException(status_code=502, detail="修改失败")
 
 #修改个人资料
-@router.put("/{id}", dependencies=[Depends(APIVERIFY("UpdateUserData"))])
+@router.put("/{id}", dependencies=[Depends(APIVERIFY("UpdateUserData"))], summary="修改个人资料")
 async def update_user_me(
     id: int,
     Authorization: str = Header(None),
@@ -206,7 +206,7 @@ async def update_user_me(
         raise HTTPException(status_code=502, detail="修改失败")
 
 #审核注册用户
-@router.put("/check/{id}", dependencies=[Depends(APIVERIFY("CheckUsers"))])
+@router.put("/check/{id}", dependencies=[Depends(APIVERIFY("CheckUsers"))], summary="审核注册用户")
 async def update_user_me(
     id: int,
     *,
@@ -224,7 +224,7 @@ async def update_user_me(
 
 
 #注册用户审核列表审核列表
-@router.post("/applyfor", dependencies=[Depends(APIVERIFY("CheckUsersList"))])
+@router.post("/applyfor", dependencies=[Depends(APIVERIFY("CheckUsersList"))], summary="注册用户审核列表")
 async def superuser_check_userlist(
     *,
     db: Session = Depends(deps.get_db),

@@ -10,7 +10,7 @@ from dashboard.app.common.utils import get_token
 
 router = APIRouter()
 
-@router.post("/",  dependencies=[Depends(APIVERIFY("AuthCreate"))])
+@router.post("/",  dependencies=[Depends(APIVERIFY("AuthCreate"))], summary="授权码申请")
 def auth_add(
     *,
     db: Session = Depends(deps.get_db),
@@ -55,7 +55,7 @@ def auth_list(
 
 
 
-@router.put("/{id}", dependencies=[Depends(APIVERIFY("AuthUpdate"))])
+@router.put("/{id}", dependencies=[Depends(APIVERIFY("AuthUpdate"))], summary="授权码修改")
 def auth_update(
     id: int,
     *,
@@ -76,7 +76,7 @@ def auth_update(
     return {'code': 200, 'msg': '修改成功'}
 
 
-@router.delete("/{id}", dependencies=[Depends(APIVERIFY("AuthDelete"))])
+@router.delete("/{id}", dependencies=[Depends(APIVERIFY("AuthDelete"))], summary="授权码删除")
 def auth_delete(
     id: int,
     *,
